@@ -2,6 +2,8 @@ const userModel = require("../models/user-model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const {generateToken} = require("../utils/generateToken");
+
+
 module.exports.registerUser = async function (req, res) {
         try {
           let { fullname, email, password } = req.body;
@@ -28,4 +30,30 @@ module.exports.registerUser = async function (req, res) {
         } catch (err) {
           res.send(err.message);
         }
-      }
+   }
+
+
+module.exports.loginUser = async function (req, res) {
+    try {
+      let { email, password } = req.body;
+      let user = await userModel.findOne({email: email});
+
+      if(!user) return res.status(401).send("User does not exists");
+
+      bcrypt.compare(password, user.password, function (err, result) {
+        if(err) return res.send(err.message);
+        if(result) {
+          let token = generateToken(user);
+          res.cookie("token",token);
+          res.send("User logged in successfully");  
+        }
+        else {
+          res.send("Incorrect password");
+        }
+      });
+    } catch (err) {
+      res.send(err.message);
+    }
+  }
+
+  

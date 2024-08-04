@@ -1,3 +1,4 @@
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -6,7 +7,7 @@ const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
 const expressSession = require("express-session");
 
-const index = require("./routes/index");
+const indexRouter = require("./routes/index");
 const ownerRouter = require("./routes/ownerRouter");
 const userRouter = require("./routes/userRouter");
 const productRouter = require("./routes/productRouter");
@@ -31,13 +32,11 @@ app.use(flash());
 app.use(express.static(path.join(__dirname, "public")));
 app.set('view engine', 'ejs');
 
-app.use("/", index );
+app.use("/", indexRouter );
 app.use("/owner", ownerRouter);
 app.use("/user", userRouter);
 app.use("/product", productRouter);
 
-app.get("/", (req, res) => {
-    res.send("Hello World!");
-});
+
 
 app.listen(3000);

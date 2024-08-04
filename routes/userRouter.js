@@ -1,7 +1,7 @@
 
 const express = require("express");
 const router = express.Router();
-const isLoggedIn = require("../middlerwares/isLoggedIn");
+// const isLoggedIn = require("../middlerwares/isLoggedIn");
 const {registerUser , loginUser , logout} = require("../controllers/authController");
 
 

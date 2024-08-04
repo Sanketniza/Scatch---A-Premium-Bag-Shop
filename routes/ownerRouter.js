@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const ownerModel = require("../models/owner-model");
+// const ownerModel = require("../models/owner-model"); 
 
 
 
-if(process.env.NODE_ENV !== "production") {
+if(process.env.NODE_ENV === "development") {
     router.post("/create" ,async function(req, res) {
         res.send("Hello World!");
        let owners = await ownerModel.find();
@@ -26,8 +26,11 @@ if(process.env.NODE_ENV !== "production") {
     });
 }
 console.log(process.env.NODE_ENV);
-router.get("/", (req, res) => {
-  res.send("Hello World!");
+
+
+router.get("/admin", (req, res) => {
+  let success = req.flash('success', 'Product created successfully');
+  res.render("createproducts" , {success});
 });
 
 
